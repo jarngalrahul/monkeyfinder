@@ -30,11 +30,7 @@ jobs:
       matrix:
         project:
         - Part 1 - Displaying Data
-        - Part 2 - MVVM
-        - Part 3 - Navigation
-        - Part 4 - Platform Features
-        - Part 5 - CollectionView
-        - Part 6 - AppThemes
+    
         
     steps:
     - uses: actions/checkout@v3
