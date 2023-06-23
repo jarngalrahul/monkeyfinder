@@ -13,7 +13,7 @@
 		<ApplicationTitle>MonkeyFinder</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.monkeyfinder</ApplicationId>
+		<ApplicationId>com.companyname.1.monkeyfinder</ApplicationId>
 		<ApplicationIdGuid>ECD44DAE-B03E-4D8B-B427-71865961E696</ApplicationIdGuid>
 
 		<!-- Versions -->
