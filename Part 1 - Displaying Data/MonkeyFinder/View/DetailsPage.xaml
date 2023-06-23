@@ -25,8 +25,8 @@
                        IsClippedToBounds="True"
                        Margin="0,80,0,0">
                     <Image Aspect="AspectFill"
-                           HeightRequest="60"
-                           WidthRequest="60"
+                           HeightRequest="160"
+                           WidthRequest="160"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            Source="{Binding Monkey.Image}"/>
@@ -34,6 +34,13 @@
                 </Frame>
                        
             </Grid>
+
+            <Button Text="Show on Map"
+                    Command="{Binding OpenMapCommand}"
+                    HorizontalOptions="Center"
+                    Style="{StaticResource ButtonOutline}"
+                    Margin="8"
+                    WidthRequest="200"/>
             <VerticalStackLayout Padding="10" Spacing="10">
                 <Label Text="{Binding Monkey.Details, StringFormat='Details: {0}'}"
                        Style="{StaticResource MediumLabel}"/>

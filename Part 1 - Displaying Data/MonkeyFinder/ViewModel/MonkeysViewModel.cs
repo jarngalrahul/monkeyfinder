@@ -7,11 +7,52 @@ public partial class MonkeysViewModel : BaseViewModel
 {
     MonkeyService monkeyService;
     public ObservableCollection<Monkey> Monkeys { get; } = new();
-    
-    public MonkeysViewModel(MonkeyService monkeyService)
+
+    IConnectivity connectivity;
+    IGeolocation geolocation;
+    public MonkeysViewModel(MonkeyService monkeyService, IConnectivity connectivity, IGeolocation geolocation)
     {
         Title = "Monkey Finder";
         this.monkeyService = monkeyService;
+        this.connectivity = connectivity;
+        this.geolocation = geolocation;
+    }
+
+    [RelayCommand]
+    async Task GetClosestMonkeyAsync()
+    {
+        if (IsBusy || Monkeys.Count == 0)
+            return;
+
+        try
+        {
+            var location = await geolocation.GetLastKnownLocationAsync();
+            if (location == null)
+            {
+                location = await geolocation.GetLocationAsync(
+                    new GeolocationRequest
+                    {
+                        Timeout = TimeSpan.FromSeconds(30),
+                        DesiredAccuracy = GeolocationAccuracy.Medium
+                    });
+            }
+
+            if (location == null)
+                return;
+
+            var first = Monkeys.OrderBy(m=>
+                location.CalculateDistance(m.Latitude, m.Longitude, DistanceUnits.Kilometers))
+                .FirstOrDefault();
+
+            await Shell.Current.DisplayAlert("Closest monkey",
+                $"{first.Name} in {first.Location}", "OK");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
+            await Shell.Current.DisplayAlert("Error!", 
+                $"Unable to get monkeys:{ex.Message}", "OK");
+        }
     }
 
     [RelayCommand]
@@ -35,6 +76,13 @@ public partial class MonkeysViewModel : BaseViewModel
 
         try
         {
+            if(connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Internet issue",
+                    $"Check your internet and try again", "OK");
+                return;
+            }
+
             IsBusy = true;
             var monkeys = await monkeyService.GetMonkeys();
 
