@@ -4,7 +4,8 @@
              xmlns:model="clr-namespace:MonkeyFinder.Model"
              xmlns:viewmodel="clr-namespace:MonkeyFinder.ViewModel"
              Title="{Binding Title}"
-             x:Class="MonkeyFinder.View.MainPage">
+             x:Class="MonkeyFinder.View.MainPage"
+             x:DataType="viewmodel:MonkeysViewModel">
 
     
     <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
@@ -32,17 +33,20 @@
                             <Frame HeightRequest="125" Style="{StaticResource CardView}">
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer 
-                                    NumberOfTapsRequired="1" 
-                                    CommandParameter="{Binding .}"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeysViewModel}},Path=GoToDetailsCommand}"/>
+                                        NumberOfTapsRequired="1" 
+                                        CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeysViewModel}},Path=GoToDetailsCommand}"/>
                                 </Frame.GestureRecognizers>
                                 <Grid ColumnDefinitions="125,*" Padding="0">
                                     <Image Aspect="AspectFill"
-                                       WidthRequest="125"
-                                       Source="{Binding Image}"
-                                       HeightRequest="125"/>
+                                           WidthRequest="125"
+                                           Source="{Binding Image}"
+                                           HeightRequest="125"/>
 
-                                    <VerticalStackLayout Grid.Column="1" Padding="10" VerticalOptions="Center">
+                                    <VerticalStackLayout 
+                                            Grid.Column="1" 
+                                            Padding="10" 
+                                            VerticalOptions="Center">
                                         <Label Text="{Binding Name}" Style="{StaticResource LargeLabel}"/>
                                         <Label Text="{Binding Location}" Style="{StaticResource MediumLabel}"/>
                                     </VerticalStackLayout>
